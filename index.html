@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Lupa – Champion of the Great Agon | Wuthering Waves</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-void text-ice font-inter overflow-x-hidden">
+
+    <!-- ========== LOADING SCREEN ========== -->
+    <div id="loader" class="loader-screen">
+        <div class="loader-ring"></div>
+        <div class="loader-text">IGNITING THE ARENA…</div>
+    </div>
+
+    <!-- Background Video -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="https://motionbgs.com/media/7973/lupa-wuthering-waves.960x540.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Floating ember particles -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-ember/25">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 reveal-fade">
+                <i class="ph ph-fire text-ember text-2xl float-ember"></i>
+                <span class="font-orbitron text-xl text-ember tracking-widest">LUPA</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-semibold stagger">
+                <a href="#about" class="hover:text-ember transition-colors duration-200">About</a>
+                <a href="#abilities" class="hover:text-ember transition-colors duration-200">Abilities</a>
+                <a href="#gallery" class="hover:text-ember transition-colors duration-200">Gallery</a>
+                <a href="#join" class="px-4 py-2 bg-ember/90 text-void rounded-full hover:bg-gold transition-all duration-200 font-bold">Enter the Arena</a>
+            </div>
+            <button class="md:hidden text-2xl text-ice reveal-fade" aria-label="Open menu"><i class="ph ph-list"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center px-4 pt-16 z-10">
+        <div class="max-w-6xl w-full grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-ember/15 border border-ember/30 rounded-full text-ember text-xs font-orbitron tracking-wider reveal-up">
+                    <i class="ph ph-crown text-gold"></i> 5-STAR FUSION
+                </div>
+                <h1 class="text-5xl md:text-7xl font-orbitron font-black tracking-tight reveal-up">
+                    <span class="text-ember drop-shadow-[0_0_14px_#FF4D1C]">Lupa</span>
+                </h1>
+                <p class="typewriter text-xl md:text-2xl text-ice/80 font-orbitron tracking-wider">The Undefeated She-Wolf</p>
+                <p class="text-lg text-ice/70 max-w-md mx-auto lg:mx-0 leading-relaxed reveal-up">
+                    A gladiator from Septimont whose name echoes through the arena. Wielding a blazing Broadblade and an untamed spirit, she fights with the heart of a wolf and the honor of a champion.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start stagger">
+                    <button class="px-8 py-3 bg-ember text-void font-bold rounded-full shadow-ember hover:bg-gold transition-all duration-200 transform hover:scale-105">
+                        <i class="ph ph-sword mr-2"></i>Explore Arsenal
+                    </button>
+                    <button onclick="openModal()" class="px-8 py-3 border border-ember text-ember rounded-full hover:bg-ember/10 transition-all duration-200 transform hover:scale-105">
+                        <i class="ph ph-play mr-2"></i>Watch Gameplay
+                    </button>
+                </div>
+                <div class="flex gap-4 justify-center lg:justify-start text-sm text-ice/50 reveal-up">
+                    <span><i class="ph ph-map-pin text-ember/60"></i> Septimont, Rinascita</span>
+                    <span><i class="ph ph-sword text-ember/60"></i> Broadblade</span>
+                </div>
+            </div>
+            <!-- 3D Tilt Card -->
+            <div class="tilt-card reveal-scale flex justify-center">
+                <div class="tilt-card-inner w-72 h-96 md:w-80 md:h-[28rem] rounded-2xl bg-gradient-to-br from-blood/40 via-ember/10 to-gold/10 border border-ember/40 shadow-ember backdrop-blur-sm flex items-center justify-center relative overflow-hidden pulse-glow">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggMN25TpAubZeygivQtv_PhbMWZGzA7gRHFIR-8uNmg&s=10"
+                         alt="Lupa gladiator portrait" class="absolute inset-0 w-full h-full object-cover opacity-90 z-0" loading="eager">
+                    <div class="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent z-10"></div>
+                    <div class="text-center px-4 z-20 relative">
+                        <p class="text-ember font-orbitron text-lg tracking-wider drop-shadow-lg">CHAMPION</p>
+                        <p class="text-gold/60 font-orbitron text-xs mt-1">OF THE GREAT AGON</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="relative z-10 py-24 px-4 bg-gradient-to-b from-void via-ash/50 to-void/90">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl font-orbitron font-bold text-ember mb-6 reveal-up">Who is Lupa?</h2>
+                <p class="text-lg text-ice/80 leading-relaxed mb-4 reveal-up">
+                    Born <strong class="text-gold">Lupa Silva</strong> of the once-noble House Silva, she abandoned her aristocratic ties to pursue the path of combat. Now a <strong class="text-ember">non-congenital Resonator</strong> of Septimont, she has never tasted defeat in the arena.
+                </p>
+                <p class="text-lg text-ice/70 leading-relaxed reveal-up">
+                    Her name — <em class="text-gold/80">"she-wolf"</em> in ancient tongue — speaks to her nature: fiercely protective of her city, relentlessly competitive in battle, and fiercely loyal to those who earn her respect. When the flames of her Broadblade ignite, the roar of the crowd becomes a hymn to her victory.
+                </p>
+                <div class="mt-8 space-y-4 stagger">
+                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-fire text-ember text-xl"></i><span>Element: Fusion (Fire)</span></div>
+                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-sword text-ember text-xl"></i><span>Weapon: Broadblade</span></div>
+                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-star text-gold text-xl"></i><span>Rarity: ★★★★★</span></div>
+                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-crown text-gold text-xl"></i><span>Title: Champion of the Great Agon</span></div>
+                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-bowl-food text-ember text-xl"></i><span>Special Dish: Heartpour</span></div>
+                </div>
+            </div>
+            <div class="reveal-scale flex justify-center">
+                <div class="w-full max-w-sm p-6 bg-white/[0.03] backdrop-blur-md border border-ember/20 rounded-2xl shadow-inner-glow">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyQMziYQzN0w8pw50VrcWJE3hyrhjg8aNqJw3hGCcJRQ&s=10"
+                         alt="Lupa full-body artwork" class="w-full h-auto rounded-lg border border-ember/20" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Abilities Section -->
+    <section id="abilities" class="relative z-10 py-24 px-4">
+        <h2 class="text-4xl font-orbitron font-bold text-center text-ember mb-4 reveal-fade">Forte: Ignis Lupa</h2>
+        <p class="text-center text-ice/50 mb-16 max-w-2xl mx-auto text-sm reveal-fade">Lupa's Resonance abilities burn with the untamed fury of a she-wolf, amplifying Fusion damage and devastating all who challenge her.</p>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-6">
+            <!-- Card 1: Basic Attack -->
+            <div class="bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-all duration-300 hover:shadow-ember group reveal-up">
+                <i class="ph ph-flame text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i>
+                <h3 class="text-lg font-orbitron text-ice mb-2">Flaming Star</h3>
+                <p class="text-ice/60 text-sm">Basic Attack – Unleash blazing strikes with the Broadblade, each swing igniting the air with Fusion energy.</p>
+            </div>
+            <!-- Card 2: Resonance Skill -->
+            <div class="bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-all duration-300 hover:shadow-ember group reveal-up">
+                <i class="ph ph-paw-print text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i>
+                <h3 class="text-lg font-orbitron text-ice mb-2">Shewolf's Hunt</h3>
+                <p class="text-ice/60 text-sm">Resonance Skill – Lunge forward with wolf-like ferocity, dealing Fusion DMG and marking prey for amplified attacks.</p>
+            </div>
+            <!-- Card 3: Resonance Liberation -->
+            <div class="bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-all duration-300 hover:shadow-ember group reveal-up">
+                <i class="ph ph-fire-simple text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i>
+                <h3 class="text-lg font-orbitron text-ice mb-2">Fire-Kissed Glory</h3>
+                <p class="text-ice/60 text-sm">Resonance Liberation – Summon a colossal inferno that engulfs the arena, massively amplifying Fusion DMG for the entire team.</p>
+            </div>
+            <!-- Card 4: Forte Circuit -->
+            <div class="bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-all duration-300 hover:shadow-ember group reveal-up">
+                <i class="ph ph-barbell text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i>
+                <h3 class="text-lg font-orbitron text-ice mb-2">Ignis Lupa</h3>
+                <p class="text-ice/60 text-sm">Forte Circuit – Build "Wolf's Ember" stacks through combat, then consume them to unleash a devastating counter-attack.</p>
+            </div>
+        </div>
+        <!-- Additional skills row -->
+        <div class="max-w-4xl mx-auto mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
+                <p class="text-ember font-orbitron text-xs mb-1">Intro Skill</p>
+                <p class="text-ice/70 text-sm">Try Focusing, Eh?</p>
+            </div>
+            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
+                <p class="text-ember font-orbitron text-xs mb-1">Outro Skill</p>
+                <p class="text-ice/70 text-sm">Stand by Me, Warrior</p>
+            </div>
+            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
+                <p class="text-ember font-orbitron text-xs mb-1">Inherent 1</p>
+                <p class="text-ice/70 text-sm">Remember My Name</p>
+            </div>
+            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
+                <p class="text-ember font-orbitron text-xs mb-1">Inherent 2</p>
+                <p class="text-ice/70 text-sm">Applause of Victory</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="relative z-10 py-24 px-4 bg-gradient-to-t from-void via-ash/40 to-void/90">
+        <h2 class="text-4xl font-orbitron font-bold text-center text-ember mb-16 reveal-fade">Arena Moments</h2>
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-all duration-300 reveal-scale">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggMN25TpAubZeygivQtv_PhbMWZGzA7gRHFIR-8uNmg&s=10"
+                     alt="Lupa landscape artwork 1" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-all duration-300 reveal-scale">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe26sLNvrfgdPErpdyKozHy2hrOY4OfDoIIZ-Wr8_V6A&s=10"
+                     alt="Lupa landscape artwork 2" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-all duration-300 reveal-scale">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjb6OP8z79y1UyZhzooXKQQtR9YMm8oeDQ5lz7Dp7B9A&s=10"
+                     alt="Lupa landscape artwork 3" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-all duration-300 reveal-scale">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggMN25TpAubZeygivQtv_PhbMWZGzA7gRHFIR-8uNmg&s=10"
+                     alt="Lupa landscape artwork 4" class="w-full h-full object-cover" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="join" class="relative z-10 py-32 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-5xl md:text-6xl font-orbitron font-black text-ember mb-6 drop-shadow-[0_0_18px_#FF4D1C] reveal-up">Roar of Triumph</h2>
+            <p class="text-xl text-ice/60 mb-12 max-w-2xl mx-auto reveal-up">The arena gates are open. Will you answer the call and fight alongside the undefeated she-wolf of Septimont?</p>
+            <div class="flex flex-wrap gap-6 justify-center stagger">
+                <a href="#" class="px-10 py-4 bg-ember text-void font-bold text-lg rounded-full shadow-ember hover:bg-gold transition-all duration-200 transform hover:scale-105">
+                    <i class="ph ph-sword mr-2"></i>Play Now
+                </a>
+                <button onclick="openModal()" class="px-10 py-4 border-2 border-ember text-ember font-bold text-lg rounded-full hover:bg-ember/10 transition-all duration-200">
+                    <i class="ph ph-play mr-2"></i>Watch Gameplay
+                </button>
+            </div>
+            <p class="mt-8 text-ice/30 text-xs reveal-up">Available via <span class="text-gold/60">Roar of Triumph</span> Event Convene • First released July 3, 2025</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-ember/20 py-8 px-4 text-center text-ice/40 text-sm">
+        <p class="reveal-fade">© 2026 Fan Page — Not affiliated with Kuro Games. Wuthering Waves and all characters belong to their respective owners.</p>
+        <div class="flex justify-center gap-6 mt-4 stagger">
+            <i class="ph ph-discord-logo text-xl hover:text-ember cursor-pointer transition-colors"></i>
+            <i class="ph ph-twitter-logo text-xl hover:text-ember cursor-pointer transition-colors"></i>
+            <i class="ph ph-youtube-logo text-xl hover:text-ember cursor-pointer transition-colors"></i>
+        </div>
+        <p class="mt-4 text-ice/20 text-xs reveal-fade">Lupa • "she-wolf" • <span class="italic">canis lupus</span></p>
+    </footer>
+
+    <!-- Gameplay Modal -->
+    <div id="gameplayModal" class="fixed inset-0 z-[9999] flex items-center justify-center modal-enter modal-hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative w-full max-w-4xl mx-4 aspect-video bg-void rounded-2xl overflow-hidden border border-ember/30 shadow-ember z-10">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 bg-void/80 text-ember hover:text-gold rounded-full p-2 transition-colors"><i class="ph ph-x text-2xl"></i></button>
+            <iframe id="gameplayIframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // ========== LOADING SCREEN ==========
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                // Small delay for visual polish
+                setTimeout(function() {
+                    loader.classList.add('loader-hidden');
+                }, 600);
+            }
+        });
+
+        // ========== PARTICLE SYSTEM ==========
+        (function() {
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [], animationId;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
+            }
+
+            function initParticles() {
+                const count = Math.floor(window.innerWidth * 0.05);
+                particles = Array.from({ length: count }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.8 + 0.4,
+                    vx: (Math.random() - 0.5) * 0.25,
+                    vy: (Math.random() - 0.5) * 0.25 - 0.15,
+                    opacity: Math.random() * 0.45 + 0.15,
+                    color: Math.random() > 0.5 ? '255,77,28' : '255,184,0'
+                }));
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
+                    ctx.fill();
+                });
+                animationId = requestAnimationFrame(draw);
+            }
+
+            const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            function handleMotionChange(e) {
+                if (e.matches) { cancelAnimationFrame(animationId); ctx.clearRect(0, 0, canvas.width, canvas.height); }
+                else draw();
+            }
+            mediaQuery.addEventListener('change', handleMotionChange);
+            window.addEventListener('resize', resize);
+            resize();
+            if (!mediaQuery.matches) draw();
+            else handleMotionChange(mediaQuery);
+        })();
+
+        // ========== 3D TILT ==========
+        const tiltCard = document.querySelector('.tilt-card');
+        if (tiltCard && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            const inner = tiltCard.querySelector('.tilt-card-inner');
+            tiltCard.addEventListener('mousemove', (e) => {
+                const rect = tiltCard.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width - 0.5) * 15;
+                const y = ((e.clientY - rect.top) / rect.height - 0.5) * -15;
+                inner.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            });
+            tiltCard.addEventListener('mouseleave', () => {
+                inner.style.transition = 'transform 0.4s ease';
+                inner.style.transform = 'rotateY(0) rotateX(0)';
+            });
+        }          
+
+        // ========== SCROLL REVEALS ==========
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.reveal-up, .reveal-fade, .reveal-scale, .stagger').forEach(el => observer.observe(el));
+
+        // ========== GAMEPLAY MODAL ==========
+        const modal = document.getElementById('gameplayModal');
+        const iframe = document.getElementById('gameplayIframe');
+
+        function openModal() {
+            iframe.src = "https://www.youtube.com/watch?v=naeaOwflpTc";
+            modal.classList.remove('modal-hidden');
+            modal.classList.add('modal-visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            iframe.src = "";
+            modal.classList.remove('modal-visible');
+            modal.classList.add('modal-hidden');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    </script>
+</body>
+</html>
