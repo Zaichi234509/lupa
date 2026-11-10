@@ -3,59 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Lupa – Champion of the Great Agon. A 3D parallax fan experience for the undefeated she-wolf gladiator from Wuthering Waves.">
-    <meta name="theme-color" content="#0A0A0A">
-    <title>Lupa – Champion of the Great Agon | Wuthering Waves</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <meta name="description" content="Lupa — Champion of the Great Agon. An immersive 3D parallax tribute to the undefeated she-wolf of Septimont from Wuthering Waves.">
+    <meta name="theme-color" content="#080506">
+    <title>Lupa — Champion of the Great Agon · Wuthering Waves</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-void text-ice font-inter overflow-x-hidden">
+<body>
 
-    <!-- ========== LOADING SCREEN ========== -->
-    <div id="loader" class="loader-screen">
-        <div class="loader-ring"></div>
-        <div class="loader-text">IGNITING THE ARENA…</div>
+    <!-- ================= LOADER ================= -->
+    <div id="loader" class="loader-screen" aria-hidden="true">
+        <div class="loader-ornament">
+            <span class="loader-ring"></span>
+            <i class="ph-fill ph-fire loader-flame"></i>
+        </div>
+        <p class="loader-text">Summoning the champion</p>
     </div>
 
-    <!-- Scroll progress -->
     <div id="scroll-progress" aria-hidden="true"></div>
-
-    <!-- Cursor glow follower -->
     <div id="cursor-glow" aria-hidden="true"></div>
 
-    <!-- ========== 3D PARALLAX BACKGROUND SCENE ========== -->
-    <!-- Layered depth scene: nebula → horizon → arena floor → mountains → shapes → orbs.
-         Each layer drifts at a different rate with the mouse (data-depth) for true 3D parallax. -->
+    <!-- ================= 3D PARALLAX WORLD ================= -->
     <div class="scene" aria-hidden="true">
         <div class="scene-base"></div>
 
-        <!-- Far layer: nebula clouds -->
-        <div class="scene-layer" data-depth="0.015">
-            <div class="nebula nebula-1"></div>
-            <div class="nebula nebula-2"></div>
-            <div class="nebula nebula-3"></div>
+        <!-- far: aurora veils -->
+        <div class="scene-layer" data-depth="0.012">
+            <div class="aurora aurora-1"></div>
+            <div class="aurora aurora-2"></div>
+            <div class="aurora aurora-3"></div>
         </div>
 
-        <!-- Horizon glow line -->
-        <div class="scene-layer" data-depth="0.03">
+        <!-- far: stars -->
+        <div class="scene-layer" data-depth="0.02">
+            <div class="starfield"></div>
+        </div>
+
+        <!-- horizon -->
+        <div class="scene-layer" data-depth="0.035">
             <div class="scene-horizon"></div>
         </div>
 
-        <!-- Arena floor grid (perspective 3D floor) -->
-        <div class="scene-layer" data-depth="0.045">
+        <!-- arena floor -->
+        <div class="scene-layer" data-depth="0.05">
             <div class="scene-floor"></div>
         </div>
 
-        <!-- Mid layer: distant mountain / arena silhouette -->
-        <div class="scene-layer" data-depth="0.06">
+        <!-- distant arena silhouette -->
+        <div class="scene-layer" data-depth="0.062">
             <svg class="scene-mountains" viewBox="0 0 1440 320" preserveAspectRatio="none">
-                <path fill="#120b0a" opacity="0.85" d="M0,320 L0,210 L120,150 L240,205 L360,120 L480,190 L600,110 L720,180 L840,130 L960,200 L1080,140 L1200,195 L1320,150 L1440,205 L1440,320 Z"/>
-                <path fill="#0d0807" d="M0,320 L0,260 L180,215 L340,265 L520,220 L700,270 L880,225 L1060,268 L1240,228 L1440,262 L1440,320 Z"/>
+                <path fill="#150a11" opacity="0.9" d="M0,320 L0,214 L130,150 L250,208 L370,126 L490,192 L610,116 L730,184 L850,132 L970,204 L1090,142 L1210,198 L1330,154 L1440,208 L1440,320 Z"/>
+                <path fill="#0d0509" d="M0,320 L0,264 L180,218 L340,268 L520,224 L700,272 L880,228 L1060,270 L1240,230 L1440,264 L1440,320 Z"/>
             </svg>
         </div>
 
-        <!-- Floating geometric shapes -->
+        <!-- floating filigree -->
         <div class="scene-layer" data-depth="0.09">
             <div class="shape shape-diamond s1 float-slow"></div>
             <div class="shape shape-ring s2 float-slower"></div>
@@ -65,527 +72,814 @@
             <div class="shape shape-diamond s6 float-slower"></div>
         </div>
 
-        <!-- Near layer: glowing ember orbs -->
+        <!-- near: glowing rose orbs -->
         <div class="scene-layer" data-depth="0.14">
             <div class="orb orb-1 float-slow"></div>
             <div class="orb orb-2 float-slower"></div>
             <div class="orb orb-3 float-slow"></div>
         </div>
+
+        <div class="scene-grain"></div>
     </div>
 
-    <!-- 3D ember particle field (depth-based, mouse-parallaxed) -->
     <canvas id="particle-canvas" aria-hidden="true"></canvas>
     <div class="vignette" aria-hidden="true"></div>
 
-    <!-- Navigation -->
-    <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 bg-void/70 backdrop-blur-md border-b border-ember/25 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 reveal-fade">
-                <i class="ph ph-fire text-ember text-2xl float-ember"></i>
-                <span class="font-orbitron text-xl text-ember tracking-widest">LUPA</span>
+    <!-- ================= NAVIGATION ================= -->
+    <nav id="main-nav" class="site-nav">
+        <div class="nav-inner">
+            <a href="#home" class="nav-brand" aria-label="Lupa home">
+                <i class="ph-fill ph-fire nav-brand-mark"></i>
+                <span class="nav-brand-text">Lupa</span>
+                <span class="nav-brand-sub">Septimont</span>
             </a>
-            <div class="hidden md:flex gap-8 text-sm font-semibold stagger items-center">
-                <a href="#about" class="hover:text-ember transition-colors duration-200">About</a>
-                <a href="#abilities" class="hover:text-ember transition-colors duration-200">Abilities</a>
-                <a href="#gallery" class="hover:text-ember transition-colors duration-200">Gallery</a>
-                <a href="#join" data-magnetic class="px-4 py-2 bg-ember/90 text-void rounded-full hover:bg-gold transition-colors duration-200 font-bold inline-block">Enter the Arena</a>
+
+            <div class="nav-links">
+                <a href="#about" class="nav-link">Her Story</a>
+                <a href="#abilities" class="nav-link">Arsenal</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#join" data-magnetic class="btn btn-nav">
+                    <span>Enter the Arena</span>
+                    <i class="ph ph-arrow-up-right"></i>
+                </a>
             </div>
-            <button id="menu-btn" class="md:hidden text-2xl text-ice reveal-fade" aria-label="Open menu" aria-expanded="false"><i class="ph ph-list"></i></button>
+
+            <button type="button" id="menu-btn" class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                <span></span><span></span>
+            </button>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden border-t border-ember/20 bg-void/95 backdrop-blur-md">
-            <div class="px-4 py-4 flex flex-col gap-4 text-sm font-semibold">
-                <a href="#about" class="mobile-link hover:text-ember transition-colors">About</a>
-                <a href="#abilities" class="mobile-link hover:text-ember transition-colors">Abilities</a>
-                <a href="#gallery" class="mobile-link hover:text-ember transition-colors">Gallery</a>
-                <a href="#join" class="mobile-link px-4 py-2 bg-ember/90 text-void rounded-full font-bold text-center">Enter the Arena</a>
-            </div>
+
+        <div id="mobile-menu" class="mobile-menu hidden">
+            <a href="#about" class="mobile-link">Her Story</a>
+            <a href="#abilities" class="mobile-link">Arsenal</a>
+            <a href="#gallery" class="mobile-link">Gallery</a>
+            <a href="#join" class="mobile-link btn btn-primary">Enter the Arena</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center justify-center px-4 pt-24 pb-16 z-10 overflow-hidden">
-        <!-- Giant parallax background word -->
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <span data-scroll-speed="-0.08" class="font-orbitron font-black text-outline select-none leading-none" style="font-size:clamp(6rem,22vw,20rem)">LUPA</span>
-        </div>
+    <main id="home">
 
-        <div class="max-w-6xl w-full grid lg:grid-cols-2 gap-12 items-center relative">
-            <div class="space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-ember/15 border border-ember/30 rounded-full text-ember text-xs font-orbitron tracking-wider reveal-up">
-                    <i class="ph ph-crown text-gold"></i> 5-STAR FUSION
-                </div>
-                <h1 class="text-5xl md:text-7xl font-orbitron font-black tracking-tight reveal-up">
-                    <span class="text-ember text-3d">Lupa</span>
-                </h1>
-                <p class="typewriter text-xl md:text-2xl text-ice/80 font-orbitron tracking-wider mx-auto lg:mx-0">The Undefeated She-Wolf</p>
-                <p class="text-lg text-ice/70 max-w-md mx-auto lg:mx-0 leading-relaxed reveal-up">
-                    A gladiator from Septimont whose name echoes through the arena. Wielding a blazing Broadblade and an untamed spirit, she fights with the heart of a wolf and the honor of a champion.
-                </p>
-                <div class="flex flex-wrap gap-4 justify-center lg:justify-start stagger">
-                    <a href="#abilities" data-magnetic class="px-8 py-3 bg-ember text-void font-bold rounded-full shadow-ember hover:bg-gold transition-colors duration-200 inline-block">
-                        <i class="ph ph-sword mr-2"></i>Explore Arsenal
-                    </a>
-                    <a href="#about" data-magnetic class="px-8 py-3 border border-ember text-ember rounded-full hover:bg-ember/10 transition-colors duration-200 inline-block">
-                        <i class="ph ph-paw-print mr-2"></i>Meet Lupa
-                    </a>
-                </div>
-                <div class="flex gap-4 justify-center lg:justify-start text-sm text-ice/50 reveal-up">
-                    <span><i class="ph ph-map-pin text-ember/60"></i> Septimont, Rinascita</span>
-                    <span><i class="ph ph-sword text-ember/60"></i> Broadblade</span>
-                </div>
-                <!-- Animated stats -->
-                <div class="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0 pt-2 reveal-up">
-                    <div class="bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-xl p-3 text-center">
-                        <p class="font-orbitron text-2xl text-gold"><span class="counter" data-count="100">0</span>%</p>
-                        <p class="text-[11px] text-ice/50 tracking-wider mt-1">UNDEFEATED</p>
-                    </div>
-                    <div class="bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-xl p-3 text-center">
-                        <p class="font-orbitron text-2xl text-gold"><span class="counter" data-count="5">0</span>★</p>
-                        <p class="text-[11px] text-ice/50 tracking-wider mt-1">RARITY</p>
-                    </div>
-                    <div class="bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-xl p-3 text-center">
-                        <p class="font-orbitron text-2xl text-gold"><span class="counter" data-count="1">0</span></p>
-                        <p class="text-[11px] text-ice/50 tracking-wider mt-1">GREAT AGON TITLE</p>
-                    </div>
-                </div>
+        <!-- ================= HERO ================= -->
+        <header class="hero">
+            <!-- giant scroll-parallax word -->
+            <div class="hero-backdrop-word" aria-hidden="true">
+                <span data-scroll-speed="-0.16" class="display-word">Ignis</span>
             </div>
 
-            <!-- 3D Parallax Stage -->
-            <div class="hero-stage reveal-scale flex justify-center">
-                <div class="hero-glow-disc" aria-hidden="true"></div>
-                <div class="hero-orbit-ring ring-1" aria-hidden="true"></div>
-                <div class="hero-orbit-ring ring-2" aria-hidden="true"></div>
+            <div class="hero-grid hero-3d" data-hero-scene>
+                <!-- copy -->
+                <div class="hero-copy">
+                    <p class="eyebrow reveal">
+                        <span class="eyebrow-rule"></span>
+                        Wuthering Waves · 5★ Fusion Resonator
+                    </p>
 
-                <!-- Floating parallax chips (move with mouse at different depths) -->
-                <div class="absolute -left-2 top-10 z-30 hidden sm:block" data-depth="0.28" aria-hidden="true">
-                    <div class="float-slow px-3 py-2 bg-void/70 backdrop-blur-md border border-gold/40 rounded-full text-gold text-xs font-orbitron tracking-wider shadow-gold">
-                        <i class="ph ph-fire mr-1"></i>FUSION
+                    <h1 class="hero-title reveal" style="--d:80ms">
+                        Lupa
+                    </h1>
+
+                    <p class="hero-subtitle reveal" style="--d:160ms">
+                        <em>Champion of the Great Agon</em>
+                    </p>
+
+                    <p class="hero-lede reveal" style="--d:240ms">
+                        The undefeated she-wolf of Septimont. A blade of living fire, a heart that never
+                        kneels — and a name the arena will never forget.
+                    </p>
+
+                    <div class="hero-actions reveal" style="--d:320ms">
+                        <a href="#abilities" data-magnetic class="btn btn-primary">
+                            <span>Explore her arsenal</span>
+                            <i class="ph ph-sword"></i>
+                        </a>
+                        <a href="#about" data-magnetic class="btn btn-ghost">
+                            <span>Meet Lupa</span>
+                            <i class="ph ph-paw-print"></i>
+                        </a>
                     </div>
-                </div>
-                <div class="absolute -right-2 top-1/3 z-30 hidden sm:block" data-depth="0.22" aria-hidden="true">
-                    <div class="float-slower px-3 py-2 bg-void/70 backdrop-blur-md border border-ember/40 rounded-full text-ember text-xs font-orbitron tracking-wider shadow-ember">
-                        <i class="ph ph-sword mr-1"></i>BROADBLADE
-                    </div>
-                </div>
-                <div class="absolute left-6 -bottom-4 z-30 hidden sm:block" data-depth="0.32" aria-hidden="true">
-                    <div class="float-slow px-3 py-2 bg-void/70 backdrop-blur-md border border-ember/30 rounded-full text-ice/80 text-xs font-orbitron tracking-wider">
-                        <i class="ph ph-crown mr-1 text-gold"></i>CHAMPION
-                    </div>
+
+                    <dl class="hero-meta reveal" style="--d:400ms">
+                        <div><dt>Origin</dt><dd>Septimont, Rinascita</dd></div>
+                        <div><dt>Weapon</dt><dd>Broadblade</dd></div>
+                        <div><dt>Element</dt><dd class="text-rose">Fusion</dd></div>
+                    </dl>
                 </div>
 
-                <!-- 3D Tilt Card with layered depth -->
-                <div class="tilt-card relative z-20" data-tilt data-tilt-max="14">
-                    <div class="hero-card w-72 h-96 md:w-80 md:h-[28rem] rounded-2xl bg-gradient-to-br from-blood/40 via-ember/10 to-gold/10 border border-ember/40 shadow-ember backdrop-blur-sm relative overflow-hidden pulse-glow">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggMN25TpAubZeygivQtv_PhbMWZGzA7gRHFIR-8uNmg&s=10"
-                             alt="Lupa gladiator portrait" class="layer-img absolute inset-0 w-full h-full object-cover opacity-90" loading="eager">
-                        <div class="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-void/20"></div>
-                        <div class="tilt-glare" aria-hidden="true"></div>
-                        <div class="layer-badge absolute inset-x-0 bottom-0 pb-8 text-center px-4">
-                            <p class="text-ember font-orbitron text-lg tracking-wider drop-shadow-lg">CHAMPION</p>
-                            <p class="text-gold/70 font-orbitron text-xs mt-1 tracking-[0.3em]">OF THE GREAT AGON</p>
+                <!-- 3D stage -->
+                <div class="hero-stage reveal-scale" style="--d:220ms">
+                    <div class="stage-layer" data-depth="0.04" aria-hidden="true"><div class="stage-aura"></div></div>
+                    <div class="stage-layer" data-depth="0.06" aria-hidden="true"><div class="stage-disc"></div></div>
+                    <div class="stage-layer" data-depth="0.09" aria-hidden="true">
+                        <div class="stage-ring ring-a"></div>
+                        <div class="stage-ring ring-b"></div>
+                    </div>
+                    <div class="stage-layer" data-depth="0.07" aria-hidden="true">
+                        <div class="stage-ring ring-c"></div>
+                    </div>
+
+                    <div class="stage-halo" aria-hidden="true"></div>
+
+                    <div class="stage-figure-box">
+                        <div class="stage-figure-wrap" data-depth="0.15">
+                            <img src="assets/lupa-portrait.webp"
+                                 alt="Lupa, the undefeated she-wolf of Septimont, wielding her blazing banner spear"
+                                 class="stage-figure" width="780" height="1148" fetchpriority="high">
                         </div>
-                        <div class="layer-chip absolute top-4 left-4 px-2 py-1 bg-void/60 backdrop-blur border border-gold/40 rounded-full text-gold text-[10px] font-orbitron tracking-widest">★★★★★</div>
+                    </div>
+
+                    <div class="stage-ground" aria-hidden="true"></div>
+
+                    <div class="stage-chip chip-1" data-depth="0.34">
+                        <i class="ph-fill ph-fire"></i><span>Fusion</span>
+                    </div>
+                    <div class="stage-chip chip-2" data-depth="0.3">
+                        <i class="ph ph-sword"></i><span>Broadblade</span>
+                    </div>
+                    <div class="stage-chip chip-3" data-depth="0.38">
+                        <i class="ph-fill ph-crown"></i><span>Great Agon</span>
+                    </div>
+
+                    <div class="stage-caption" aria-hidden="true">
+                        <span>★★★★★</span>
+                        <span class="divider-dot"></span>
+                        <span>She-wolf</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-ice/40 reveal-fade" aria-hidden="true">
-            <span class="text-[10px] font-orbitron tracking-[0.3em]">SCROLL</span>
-            <i class="ph ph-caret-down text-xl animate-bounce"></i>
-        </div>
-    </header>
-
-    <!-- Marquee strip -->
-    <div class="marquee relative z-10" aria-hidden="true">
-        <div class="marquee-track font-orbitron text-sm tracking-[0.25em] text-ember/80">
-            <span>CHAMPION OF THE GREAT AGON</span><span class="text-gold">✦</span>
-            <span>THE UNDEFEATED SHE-WOLF</span><span class="text-gold">✦</span>
-            <span>IGNIS LUPA</span><span class="text-gold">✦</span>
-            <span>SEPTIMONT</span><span class="text-gold">✦</span>
-            <span>CHAMPION OF THE GREAT AGON</span><span class="text-gold">✦</span>
-            <span>THE UNDEFEATED SHE-WOLF</span><span class="text-gold">✦</span>
-            <span>IGNIS LUPA</span><span class="text-gold">✦</span>
-            <span>SEPTIMONT</span><span class="text-gold">✦</span>
-        </div>
-    </div>
-
-    <!-- About Section -->
-    <section id="about" class="relative z-10 py-24 px-4 overflow-hidden">
-        <div class="absolute top-10 -right-10 pointer-events-none" aria-hidden="true">
-            <span data-scroll-speed="0.1" class="font-orbitron font-black text-outline select-none" style="font-size:clamp(4rem,12vw,9rem)">WOLF</span>
-        </div>
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative">
-            <div>
-                <h2 class="text-4xl font-orbitron font-bold text-ember mb-6 reveal-up">Who is Lupa?</h2>
-                <p class="text-lg text-ice/80 leading-relaxed mb-4 reveal-up">
-                    Born <strong class="text-gold">Lupa Silva</strong> of the once-noble House Silva, she abandoned her aristocratic ties to pursue the path of combat. Now a <strong class="text-ember">non-congenital Resonator</strong> of Septimont, she has never tasted defeat in the arena.
-                </p>
-                <p class="text-lg text-ice/70 leading-relaxed reveal-up">
-                    Her name — <em class="text-gold/80">"she-wolf"</em> in ancient tongue — speaks to her nature: fiercely protective of her city, relentlessly competitive in battle, and fiercely loyal to those who earn her respect. When the flames of her Broadblade ignite, the roar of the crowd becomes a hymn to her victory.
-                </p>
-                <div class="mt-8 space-y-4 stagger">
-                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-fire text-ember text-xl"></i><span>Element: Fusion (Fire)</span></div>
-                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-sword text-ember text-xl"></i><span>Weapon: Broadblade</span></div>
-                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-star text-gold text-xl"></i><span>Rarity: ★★★★★</span></div>
-                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-crown text-gold text-xl"></i><span>Title: Champion of the Great Agon</span></div>
-                    <div class="flex items-center gap-4 text-ice/80"><i class="ph ph-bowl-food text-ember text-xl"></i><span>Special Dish: Heartpour</span></div>
+            <!-- stats strip -->
+            <div class="hero-stats" data-stagger>
+                <div class="stat reveal">
+                    <p class="stat-value"><span class="counter" data-count="100">0</span><span class="stat-suffix">%</span></p>
+                    <p class="stat-label">Undefeated in the arena</p>
+                </div>
+                <div class="stat reveal">
+                    <p class="stat-value"><span class="counter" data-count="5">0</span><span class="stat-suffix">★</span></p>
+                    <p class="stat-label">Rarity tier</p>
+                </div>
+                <div class="stat reveal">
+                    <p class="stat-value"><span class="counter" data-count="1">0</span></p>
+                    <p class="stat-label">Great Agon title</p>
+                </div>
+                <div class="stat reveal">
+                    <p class="stat-value"><span class="counter" data-count="7">0</span></p>
+                    <p class="stat-label">Fusion incarnations</p>
                 </div>
             </div>
-            <div class="reveal-3d flex justify-center">
-                <div class="tilt-card w-full max-w-sm" data-tilt data-tilt-max="10">
-                    <div class="hero-card p-6 bg-white/[0.03] backdrop-blur-md border border-ember/20 rounded-2xl shadow-inner-glow relative overflow-hidden">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyQMziYQzN0w8pw50VrcWJE3hyrhjg8aNqJw3hGCcJRQ&s=10"
-                             alt="Lupa full-body artwork" class="layer-img w-full h-auto rounded-lg border border-ember/20" loading="lazy">
+
+            <div class="scroll-cue" aria-hidden="true">
+                <span>Scroll</span>
+                <span class="scroll-cue-line"></span>
+            </div>
+        </header>
+
+        <!-- ================= MARQUEE ================= -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <span>Champion of the Great Agon</span><span class="marquee-dot">✦</span>
+                <span>The undefeated she-wolf</span><span class="marquee-dot">✦</span>
+                <span>Ignis Lupa</span><span class="marquee-dot">✦</span>
+                <span>Septimont</span><span class="marquee-dot">✦</span>
+                <span>Champion of the Great Agon</span><span class="marquee-dot">✦</span>
+                <span>The undefeated she-wolf</span><span class="marquee-dot">✦</span>
+                <span>Ignis Lupa</span><span class="marquee-dot">✦</span>
+                <span>Septimont</span><span class="marquee-dot">✦</span>
+            </div>
+        </div>
+
+        <!-- ================= ABOUT ================= -->
+        <section id="about" class="section section-about">
+            <div class="section-backdrop-word" aria-hidden="true">
+                <span data-scroll-speed="0.12" class="display-word">Wolf</span>
+            </div>
+
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal"><span class="eyebrow-rule"></span>Her Story</p>
+                    <h2 class="section-title reveal" style="--d:80ms">
+                        Born to the <em>roar</em> of the crowd
+                    </h2>
+                </div>
+
+                <div class="about-grid">
+                    <!-- portrait collage -->
+                    <div class="about-collage reveal-3d">
+                        <div class="collage-main tilt" data-tilt data-tilt-max="9">
+                            <div class="collage-frame">
+                                <img src="assets/lupa-portrait.webp" alt="Lupa in her gladiator attire" loading="lazy">
+                                <div class="tilt-glare" aria-hidden="true"></div>
+                            </div>
+                        </div>
+                        <div class="collage-side tilt" data-tilt data-tilt-max="14">
+                            <div class="collage-side-frame">
+                                <img src="assets/lupa-flag.webp" alt="Lupa's crimson wolf banner" loading="lazy">
+                                <div class="tilt-glare" aria-hidden="true"></div>
+                            </div>
+                        </div>
+                        <div class="collage-quote">
+                            <i class="ph-fill ph-quotes"></i>
+                            <p>She fights with the heart of a wolf.</p>
+                        </div>
+                    </div>
+
+                    <!-- copy -->
+                    <div class="about-copy">
+                        <p class="lede reveal">
+                            Born <strong>Lupa Silva</strong> of the once-noble House Silva, she abandoned her
+                            aristocratic ties to walk the path of the blade. Now a non-congenital Resonator of
+                            Septimont, she has never once tasted defeat in the arena.
+                        </p>
+                        <p class="body reveal" style="--d:90ms">
+                            Her name means <em>“she-wolf”</em> in an ancient tongue — and it fits like a gauntlet.
+                            Fiercely protective of her city, relentlessly competitive in battle, fiercely loyal
+                            to those who earn her respect. When her Broadblade ignites, the roar of the crowd
+                            becomes a hymn to her victory.
+                        </p>
+
+                        <dl class="facts">
+                            <div class="fact reveal">
+                                <dt>Full name</dt>
+                                <dd>Lupa Silva</dd>
+                            </div>
+                            <div class="fact reveal">
+                                <dt>Title</dt>
+                                <dd>Champion of the Great Agon</dd>
+                            </div>
+                            <div class="fact reveal">
+                                <dt>Element</dt>
+                                <dd class="text-rose">Fusion</dd>
+                            </div>
+                            <div class="fact reveal">
+                                <dt>Weapon</dt>
+                                <dd>Broadblade</dd>
+                            </div>
+                            <div class="fact reveal">
+                                <dt>Forte</dt>
+                                <dd>Ignis Lupa</dd>
+                            </div>
+                            <div class="fact reveal">
+                                <dt>Signature dish</dt>
+                                <dd>Heartpour</dd>
+                            </div>
+                        </dl>
+
+                        <p class="signature reveal">
+                            <i class="ph-fill ph-paw-print"></i>
+                            <span>“Remember my name.”</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABILITIES ================= -->
+        <section id="abilities" class="section section-abilities">
+            <div class="wrap">
+                <div class="section-head center">
+                    <p class="eyebrow reveal"><span class="eyebrow-rule"></span>Combat Arsenal</p>
+                    <h2 class="section-title reveal" style="--d:80ms">
+                        Forte: <em>Ignis Lupa</em>
+                    </h2>
+                    <p class="section-sub reveal" style="--d:140ms">
+                        Her Resonance burns with the untamed fury of a she-wolf — amplifying Fusion damage
+                        and leaving nothing but embers in her wake.
+                    </p>
+                </div>
+
+                <div class="ability-grid">
+                    <article class="ability-card tilt reveal" data-tilt data-tilt-max="11">
+                        <span class="ability-index">01</span>
+                        <span class="ability-icon"><i class="ph ph-flame"></i></span>
+                        <p class="ability-kind">Basic Attack</p>
+                        <h3 class="ability-name">Flaming Star</h3>
+                        <p class="ability-text">
+                            Blazing Broadblade strikes that carve the air alight — every swing trailing
+                            Fusion energy in wide, glittering arcs.
+                        </p>
+                        <span class="ability-rule"></span>
                         <div class="tilt-glare" aria-hidden="true"></div>
-                        <p class="layer-badge mt-4 text-center font-orbitron text-xs tracking-[0.3em] text-gold/70">LUPA SILVA • SEPTIMONT</p>
+                    </article>
+
+                    <article class="ability-card tilt reveal" style="--d:90ms" data-tilt data-tilt-max="11">
+                        <span class="ability-index">02</span>
+                        <span class="ability-icon"><i class="ph ph-paw-print"></i></span>
+                        <p class="ability-kind">Resonance Skill</p>
+                        <h3 class="ability-name">Shewolf's Hunt</h3>
+                        <p class="ability-text">
+                            A wolf-like lunge that marks her prey, dealing Fusion DMG and amplifying
+                            every strike that follows.
+                        </p>
+                        <span class="ability-rule"></span>
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                    </article>
+
+                    <article class="ability-card tilt reveal" style="--d:180ms" data-tilt data-tilt-max="11">
+                        <span class="ability-index">03</span>
+                        <span class="ability-icon"><i class="ph-fill ph-fire-simple"></i></span>
+                        <p class="ability-kind">Resonance Liberation</p>
+                        <h3 class="ability-name">Fire-Kissed Glory</h3>
+                        <p class="ability-text">
+                            A colossal inferno engulfs the arena, massively amplifying Fusion DMG
+                            for the entire team.
+                        </p>
+                        <span class="ability-rule"></span>
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                    </article>
+
+                    <article class="ability-card tilt reveal" style="--d:270ms" data-tilt data-tilt-max="11">
+                        <span class="ability-index">04</span>
+                        <span class="ability-icon"><i class="ph-fill ph-crown-simple"></i></span>
+                        <p class="ability-kind">Forte Circuit</p>
+                        <h3 class="ability-name">Ignis Lupa</h3>
+                        <p class="ability-text">
+                            Gather <em>Wolf's Ember</em> through combat, then spend it in a devastating
+                            counter that ends the match.
+                        </p>
+                        <span class="ability-rule"></span>
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                    </article>
+                </div>
+
+                <div class="passives" data-stagger>
+                    <div class="passive reveal">
+                        <span class="passive-kind">Intro Skill</span>
+                        <span class="passive-name">Try Focusing, Eh?</span>
+                    </div>
+                    <div class="passive reveal">
+                        <span class="passive-kind">Outro Skill</span>
+                        <span class="passive-name">Stand by Me, Warrior</span>
+                    </div>
+                    <div class="passive reveal">
+                        <span class="passive-kind">Inherent I</span>
+                        <span class="passive-name">Remember My Name</span>
+                    </div>
+                    <div class="passive reveal">
+                        <span class="passive-kind">Inherent II</span>
+                        <span class="passive-name">Applause of Victory</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Abilities Section -->
-    <section id="abilities" class="relative z-10 py-24 px-4 overflow-hidden">
-        <h2 class="text-4xl font-orbitron font-bold text-center text-ember mb-4 reveal-fade">Forte: Ignis Lupa</h2>
-        <p class="text-center text-ice/50 mb-16 max-w-2xl mx-auto text-sm reveal-fade">Lupa's Resonance abilities burn with the untamed fury of a she-wolf, amplifying Fusion damage and devastating all who challenge her.</p>
-        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-6">
-            <!-- Card 1: Basic Attack -->
-            <div class="tilt-card bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-colors duration-300 hover:shadow-ember group reveal-up relative overflow-hidden" data-tilt data-tilt-max="12">
-                <span class="absolute top-3 right-5 font-orbitron text-5xl text-ember/10 select-none" aria-hidden="true">01</span>
-                <div class="layer-icon"><i class="ph ph-flame text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i></div>
-                <h3 class="layer-text text-lg font-orbitron text-ice mb-2">Flaming Star</h3>
-                <p class="layer-text text-ice/60 text-sm">Basic Attack – Unleash blazing strikes with the Broadblade, each swing igniting the air with Fusion energy.</p>
-                <div class="tilt-glare" aria-hidden="true"></div>
+        <!-- ================= QUOTE BANNER ================= -->
+        <section class="quote-banner">
+            <div class="quote-backdrop-word" aria-hidden="true">
+                <span data-scroll-speed="-0.2" class="display-word">Lupa</span>
             </div>
-            <!-- Card 2: Resonance Skill -->
-            <div class="tilt-card bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-colors duration-300 hover:shadow-ember group reveal-up relative overflow-hidden" data-tilt data-tilt-max="12">
-                <span class="absolute top-3 right-5 font-orbitron text-5xl text-ember/10 select-none" aria-hidden="true">02</span>
-                <div class="layer-icon"><i class="ph ph-paw-print text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i></div>
-                <h3 class="layer-text text-lg font-orbitron text-ice mb-2">Shewolf's Hunt</h3>
-                <p class="layer-text text-ice/60 text-sm">Resonance Skill – Lunge forward with wolf-like ferocity, dealing Fusion DMG and marking prey for amplified attacks.</p>
-                <div class="tilt-glare" aria-hidden="true"></div>
+            <div class="wrap quote-wrap">
+                <i class="ph-fill ph-quotes quote-mark reveal"></i>
+                <blockquote class="reveal" style="--d:80ms">
+                    In the arena, there are no second chances — <em>only legends.</em>
+                </blockquote>
+                <p class="quote-attr reveal" style="--d:160ms">— Lupa, Champion of the Great Agon</p>
             </div>
-            <!-- Card 3: Resonance Liberation -->
-            <div class="tilt-card bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-colors duration-300 hover:shadow-ember group reveal-up relative overflow-hidden" data-tilt data-tilt-max="12">
-                <span class="absolute top-3 right-5 font-orbitron text-5xl text-ember/10 select-none" aria-hidden="true">03</span>
-                <div class="layer-icon"><i class="ph ph-fire-simple text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i></div>
-                <h3 class="layer-text text-lg font-orbitron text-ice mb-2">Fire-Kissed Glory</h3>
-                <p class="layer-text text-ice/60 text-sm">Resonance Liberation – Summon a colossal inferno that engulfs the arena, massively amplifying Fusion DMG for the entire team.</p>
-                <div class="tilt-glare" aria-hidden="true"></div>
-            </div>
-            <!-- Card 4: Forte Circuit -->
-            <div class="tilt-card bg-white/[0.04] backdrop-blur-md border border-ember/20 rounded-2xl p-6 hover:border-ember/60 transition-colors duration-300 hover:shadow-ember group reveal-up relative overflow-hidden" data-tilt data-tilt-max="12">
-                <span class="absolute top-3 right-5 font-orbitron text-5xl text-ember/10 select-none" aria-hidden="true">04</span>
-                <div class="layer-icon"><i class="ph ph-barbell text-4xl text-ember mb-4 group-hover:text-gold transition-colors"></i></div>
-                <h3 class="layer-text text-lg font-orbitron text-ice mb-2">Ignis Lupa</h3>
-                <p class="layer-text text-ice/60 text-sm">Forte Circuit – Build "Wolf's Ember" stacks through combat, then consume them to unleash a devastating counter-attack.</p>
-                <div class="tilt-glare" aria-hidden="true"></div>
-            </div>
-        </div>
-        <!-- Additional skills row -->
-        <div class="max-w-4xl mx-auto mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
-                <p class="text-ember font-orbitron text-xs mb-1">Intro Skill</p>
-                <p class="text-ice/70 text-sm">Try Focusing, Eh?</p>
-            </div>
-            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
-                <p class="text-ember font-orbitron text-xs mb-1">Outro Skill</p>
-                <p class="text-ice/70 text-sm">Stand by Me, Warrior</p>
-            </div>
-            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
-                <p class="text-ember font-orbitron text-xs mb-1">Inherent 1</p>
-                <p class="text-ice/70 text-sm">Remember My Name</p>
-            </div>
-            <div class="bg-white/[0.02] border border-ember/15 rounded-xl p-4 text-center hover:border-ember/40 transition-all reveal-up">
-                <p class="text-ember font-orbitron text-xs mb-1">Inherent 2</p>
-                <p class="text-ice/70 text-sm">Applause of Victory</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Parallax Quote Banner -->
-    <section class="relative z-10 py-28 px-4 overflow-hidden border-y border-ember/20 bg-void/40 backdrop-blur-sm">
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <span data-scroll-speed="-0.12" class="font-orbitron font-black text-outline select-none whitespace-nowrap" style="font-size:clamp(3rem,10vw,8rem)">IGNIS LUPA</span>
-        </div>
-        <div class="relative max-w-3xl mx-auto text-center">
-            <i class="ph ph-quotes text-4xl text-gold mb-6 reveal-fade"></i>
-            <blockquote class="text-2xl md:text-3xl font-orbitron leading-relaxed text-ice/90 reveal-up">
-                "In the arena, there are no second chances — only legends."
-            </blockquote>
-            <p class="mt-6 text-ember tracking-[0.3em] font-orbitron text-sm reveal-fade">— LUPA, CHAMPION OF THE GREAT AGON</p>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="relative z-10 py-24 px-4">
-        <h2 class="text-4xl font-orbitron font-bold text-center text-ember mb-16 reveal-fade">Arena Moments</h2>
-        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="tilt-card aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-colors duration-300 reveal-scale group relative" data-tilt data-tilt-max="8">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggMN25TpAubZeygivQtv_PhbMWZGzA7gRHFIR-8uNmg&s=10"
-                     alt="Lupa artwork 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-void/90 to-transparent translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    <p class="font-orbitron text-xs text-gold tracking-widest">THE CHAMPION</p>
+        <!-- ================= GALLERY ================= -->
+        <section id="gallery" class="section section-gallery">
+            <div class="wrap">
+                <div class="section-head center">
+                    <p class="eyebrow reveal"><span class="eyebrow-rule"></span>Gallery</p>
+                    <h2 class="section-title reveal" style="--d:80ms">Moments in <em>ember</em></h2>
                 </div>
-                <div class="tilt-glare" aria-hidden="true"></div>
-            </div>
-            <div class="tilt-card aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-colors duration-300 reveal-scale group relative" data-tilt data-tilt-max="8">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe26sLNvrfgdPErpdyKozHy2hrOY4OfDoIIZ-Wr8_V6A&s=10"
-                     alt="Lupa artwork 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-void/90 to-transparent translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    <p class="font-orbitron text-xs text-gold tracking-widest">IGNIS LUPA</p>
-                </div>
-                <div class="tilt-glare" aria-hidden="true"></div>
-            </div>
-            <div class="tilt-card aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-colors duration-300 reveal-scale group relative" data-tilt data-tilt-max="8">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjb6OP8z79y1UyZhzooXKQQtR9YMm8oeDQ5lz7Dp7B9A&s=10"
-                     alt="Lupa artwork 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-void/90 to-transparent translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    <p class="font-orbitron text-xs text-gold tracking-widest">SHE-WOLF</p>
-                </div>
-                <div class="tilt-glare" aria-hidden="true"></div>
-            </div>
-            <div class="tilt-card aspect-square rounded-2xl overflow-hidden border border-ember/20 hover:border-ember/60 transition-colors duration-300 reveal-scale group relative" data-tilt data-tilt-max="8">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRggMN25TpAubZeygivQtv_PhbMWZGzA7gRHFIR-8uNmg&s=10"
-                     alt="Lupa artwork 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-void/90 to-transparent translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    <p class="font-orbitron text-xs text-gold tracking-widest">GREAT AGON</p>
-                </div>
-                <div class="tilt-glare" aria-hidden="true"></div>
-            </div>
-        </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section id="join" class="relative z-10 py-32 px-4 text-center overflow-hidden">
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <span data-scroll-speed="0.08" class="font-orbitron font-black text-outline select-none" style="font-size:clamp(4rem,14vw,11rem)">ROAR</span>
-        </div>
-        <div class="relative max-w-4xl mx-auto">
-            <h2 class="text-5xl md:text-6xl font-orbitron font-black text-ember mb-6 text-3d reveal-up">Roar of Triumph</h2>
-            <p class="text-xl text-ice/60 mb-12 max-w-2xl mx-auto reveal-up">The arena gates are open. Will you answer the call and fight alongside the undefeated she-wolf of Septimont?</p>
-            <div class="flex flex-wrap gap-6 justify-center stagger">
-                <a href="https://wutheringwaves.kurogames.com/en/main/" target="_blank" rel="noopener" data-magnetic class="px-10 py-4 bg-ember text-void font-bold text-lg rounded-full shadow-ember hover:bg-gold transition-colors duration-200 inline-block">
-                    <i class="ph ph-sword mr-2"></i>Play Now
-                </a>
-                <a href="#abilities" data-magnetic class="px-10 py-4 border-2 border-ember text-ember font-bold text-lg rounded-full hover:bg-ember/10 transition-colors duration-200 inline-block">
-                    <i class="ph ph-flame mr-2"></i>Explore Abilities
-                </a>
-            </div>
-            <p class="mt-8 text-ice/30 text-xs reveal-up">Available via <span class="text-gold/60">Roar of Triumph</span> Event Convene • First released July 3, 2025</p>
-        </div>
-    </section>
+                <div class="gallery-grid">
+                    <figure class="gal gal-tall tilt reveal-3d" data-tilt data-tilt-max="7">
+                        <div class="gal-media">
+                            <img src="assets/gallery-art.webp" alt="Lupa illustrated in a dynamic battle pose" loading="lazy">
+                        </div>
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <figcaption><span>01</span> The Champion</figcaption>
+                    </figure>
 
-    <!-- Footer -->
-    <footer class="relative z-10 border-t border-ember/20 py-8 px-4 text-center text-ice/40 text-sm bg-void/60 backdrop-blur-sm">
-        <p class="reveal-fade">© 2026 Fan Page — Not affiliated with Kuro Games. Wuthering Waves and all characters belong to their respective owners.</p>
-        <div class="flex justify-center gap-6 mt-4 stagger">
-            <i class="ph ph-discord-logo text-xl hover:text-ember cursor-pointer transition-colors"></i>
-            <i class="ph ph-twitter-logo text-xl hover:text-ember cursor-pointer transition-colors"></i>
-            <i class="ph ph-youtube-logo text-xl hover:text-ember cursor-pointer transition-colors"></i>
+                    <figure class="gal gal-wide tilt reveal-3d" style="--d:90ms" data-tilt data-tilt-max="7">
+                        <div class="gal-media">
+                            <img src="assets/gallery-wide.webp" alt="Lupa charging forward with her banner" loading="lazy">
+                        </div>
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <figcaption><span>02</span> Blade of Living Fire</figcaption>
+                    </figure>
+
+                    <figure class="gal gal-square tilt reveal-3d" style="--d:180ms" data-tilt data-tilt-max="7">
+                        <div class="gal-media">
+                            <img src="assets/gallery-official.webp" alt="Lupa smiling in her gladiator armour" loading="lazy">
+                        </div>
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <figcaption><span>03</span> She-Wolf of Septimont</figcaption>
+                    </figure>
+
+                    <figure class="gal gal-wide2 tilt reveal-3d" style="--d:270ms" data-tilt data-tilt-max="7">
+                        <div class="gal-media">
+                            <img src="assets/gallery-blaze.webp" alt="Splash artwork of Lupa surrounded by flames" loading="lazy">
+                        </div>
+                        <div class="tilt-glare" aria-hidden="true"></div>
+                        <figcaption><span>04</span> Ignis Lupa</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CTA ================= -->
+        <section id="join" class="cta">
+            <div class="cta-aura" aria-hidden="true"></div>
+            <div class="cta-backdrop-word" aria-hidden="true">
+                <span data-scroll-speed="0.14" class="display-word">Roar</span>
+            </div>
+            <div class="wrap cta-wrap">
+                <p class="eyebrow center reveal"><span class="eyebrow-rule"></span>The gates are open</p>
+                <h2 class="cta-title reveal" style="--d:80ms">Answer the <em>roar</em></h2>
+                <p class="cta-text reveal" style="--d:150ms">
+                    Will you step into the Great Agon and fight beside the undefeated she-wolf of Septimont?
+                </p>
+                <div class="cta-actions reveal" style="--d:220ms">
+                    <a href="https://wutheringwaves.kurogames.com/en/main/" target="_blank" rel="noopener"
+                       data-magnetic class="btn btn-primary btn-lg">
+                        <span>Play Wuthering Waves</span>
+                        <i class="ph ph-arrow-up-right"></i>
+                    </a>
+                    <a href="#abilities" data-magnetic class="btn btn-ghost btn-lg">
+                        <span>Review her arsenal</span>
+                        <i class="ph ph-flame"></i>
+                    </a>
+                </div>
+                <p class="cta-note reveal" style="--d:290ms">
+                    Available via <span>Roar of Triumph</span> Event Convene · First released July 3, 2025
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="wrap footer-inner">
+            <div class="footer-brand">
+                <i class="ph-fill ph-fire"></i>
+                <span>Lupa</span>
+            </div>
+            <p class="footer-note">Fan-made tribute · Not affiliated with Kuro Games. Wuthering Waves and all characters belong to their respective owners.</p>
+            <div class="footer-social">
+                <a href="#" aria-label="Discord"><i class="ph ph-discord-logo"></i></a>
+                <a href="#" aria-label="Twitter"><i class="ph ph-twitter-logo"></i></a>
+                <a href="#" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+            </div>
         </div>
-        <p class="mt-4 text-ice/20 text-xs reveal-fade">Lupa • "she-wolf" • <span class="italic">canis lupus</span></p>
+        <p class="footer-fine">Lupa · “she-wolf” · <em>canis lupus</em></p>
     </footer>
 
     <script>
+    (function () {
+        'use strict';
+
         const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const canHover = window.matchMedia('(hover: hover)').matches;
+        const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-        // ========== LOADING SCREEN ==========
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('loader');
-            if (loader) setTimeout(() => loader.classList.add('loader-hidden'), 600);
-        });
+        /* ---------- loader ---------- */
+        const loader = document.getElementById('loader');
+        const hideLoader = () => {
+            if (!loader) return;
+            loader.classList.add('is-hidden');
+            document.body.classList.add('is-ready');
+            setTimeout(() => loader.remove(), 900);
+        };
+        if (document.readyState === 'complete') setTimeout(hideLoader, 450);
+        else window.addEventListener('load', () => setTimeout(hideLoader, 450));
+        // safety net
+        setTimeout(hideLoader, 3500);
+        setTimeout(() => document.querySelectorAll('.hero .reveal, .hero .reveal-scale').forEach((el) => el.classList.add('is-in')), 1200);
 
-        // ========== SHARED MOUSE STATE (drives parallax + particles + cursor) ==========
+        /* ---------- shared pointer state ---------- */
         let targetX = 0, targetY = 0, curX = 0, curY = 0;
         const cursorGlow = document.getElementById('cursor-glow');
+
+        const onPointerMove = (e) => {
+            const cx = e.clientX, cy = e.clientY;
+            targetX = cx / window.innerWidth - 0.5;
+            targetY = cy / window.innerHeight - 0.5;
+            if (cursorGlow) {
+                cursorGlow.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
+                cursorGlow.classList.add('is-active');
+            }
+        };
         if (canHover && !prefersReduced) {
-            window.addEventListener('mousemove', (e) => {
-                targetX = e.clientX / window.innerWidth - 0.5;
-                targetY = e.clientY / window.innerHeight - 0.5;
-                if (cursorGlow) cursorGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-            }, { passive: true });
+            window.addEventListener('pointermove', onPointerMove, { passive: true });
         }
 
-        // ========== 3D PARTICLE FIELD (depth + twinkle + mouse parallax) ==========
-        (function() {
+        /* ---------- 3D ember / petal field ---------- */
+        (function particles() {
             const canvas = document.getElementById('particle-canvas');
             if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let particles = [], animationId;
+            const ctx = canvas.getContext('2d', { alpha: true });
+            const palette = ['255,135,163', '241,200,142', '255,255,255', '224,82,122'];
+            let list = [];
+            let w = 0, h = 0;
 
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                initParticles();
-            }
-            function initParticles() {
-                const count = Math.min(140, Math.floor(window.innerWidth * 0.06));
-                particles = Array.from({ length: count }, () => ({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    z: 0.25 + Math.random() * 0.75,          // depth 0.25 (far) → 1 (near)
-                    radius: 0.5 + Math.random() * 1.6,
-                    vx: (Math.random() - 0.5) * 0.2,
-                    vy: (Math.random() - 0.5) * 0.2 - 0.18,
-                    opacity: 0.15 + Math.random() * 0.45,
-                    phase: Math.random() * Math.PI * 2,       // twinkle phase
-                    color: Math.random() > 0.5 ? '255,77,28' : '255,184,0'
+            function build() {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                w = window.innerWidth; h = window.innerHeight;
+                canvas.width = w * dpr; canvas.height = h * dpr;
+                canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                const count = w < 640 ? 42 : Math.min(120, Math.round(w * 0.075));
+                list = Array.from({ length: count }, () => ({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    z: 0.2 + Math.random() * 0.8,
+                    r: 0.5 + Math.random() * 1.9,
+                    vx: (Math.random() - 0.5) * 0.16,
+                    vy: -0.06 - Math.random() * 0.28,
+                    a: 0.12 + Math.random() * 0.5,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: 0.5 + Math.random() * 1.4,
+                    color: palette[(Math.random() * palette.length) | 0]
                 }));
             }
+
             function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0, 0, w, h);
                 const t = performance.now() / 1000;
-                particles.forEach(p => {
-                    p.x += p.vx * p.z; p.y += p.vy * p.z;
-                    if (p.x < -10) p.x = canvas.width + 10;
-                    if (p.x > canvas.width + 10) p.x = -10;
-                    if (p.y < -10) p.y = canvas.height + 10;
-                    if (p.y > canvas.height + 10) p.y = -10;
-                    // Parallax offset by depth + twinkle
-                    const px = p.x + curX * 40 * p.z;
-                    const py = p.y + curY * 40 * p.z;
-                    const twinkle = 0.65 + 0.35 * Math.sin(t * 1.6 + p.phase);
-                    const size = p.radius * (0.5 + p.z * 0.9) * twinkle;
+                for (let i = 0; i < list.length; i++) {
+                    const p = list[i];
+                    p.x += p.vx * p.z;
+                    p.y += p.vy * p.z * (0.6 + p.r * 0.3);
+                    if (p.y < -20) { p.y = h + 20; p.x = Math.random() * w; }
+                    if (p.x < -20) p.x = w + 20;
+                    if (p.x > w + 20) p.x = -20;
+
+                    const px = p.x + curX * 52 * p.z;
+                    const py = p.y + curY * 52 * p.z;
+                    const twinkle = 0.55 + 0.45 * Math.sin(t * p.speed + p.phase);
+                    const size = Math.max(p.r * (0.45 + p.z * 0.95) * twinkle, 0.35);
+                    const alpha = p.a * twinkle;
+
                     ctx.beginPath();
-                    ctx.arc(px, py, Math.max(size, 0.3), 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${p.color},${(p.opacity * twinkle).toFixed(3)})`;
+                    ctx.arc(px, py, size, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(' + p.color + ',' + alpha.toFixed(3) + ')';
                     ctx.fill();
-                    // Glow halo for near particles
-                    if (p.z > 0.8) {
+
+                    if (p.z > 0.82) {
                         ctx.beginPath();
-                        ctx.arc(px, py, size * 3.2, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(${p.color},${(p.opacity * 0.12 * twinkle).toFixed(3)})`;
+                        ctx.arc(px, py, size * 4, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(' + p.color + ',' + (alpha * 0.1).toFixed(3) + ')';
                         ctx.fill();
                     }
-                });
-                animationId = requestAnimationFrame(draw);
+                }
+                requestAnimationFrame(draw);
             }
-            window.addEventListener('resize', resize);
-            resize();
-            if (!prefersReduced) draw();
+
+            window.addEventListener('resize', build, { passive: true });
+            build();
+            if (!prefersReduced) requestAnimationFrame(draw);
         })();
 
-        // ========== MOUSE + SCROLL PARALLAX ENGINE (single rAF loop) ==========
-        const depthEls = document.querySelectorAll('[data-depth]');
-        const scrollEls = document.querySelectorAll('[data-scroll-speed]');
+        /* ---------- tilt engine (smooth, rAF driven) ---------- */
+        const tiltCards = [];
+        if (canHover && !prefersReduced) {
+            document.querySelectorAll('[data-tilt]').forEach((el) => {
+                const state = { el, max: parseFloat(el.dataset.tiltMax || '10'), tx: 0, ty: 0, cx: 0, cy: 0, lift: 0, targetLift: 0, active: false };
+                el.addEventListener('pointermove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const px = (e.clientX - rect.left) / rect.width;
+                    const py = (e.clientY - rect.top) / rect.height;
+                    state.tx = (0.5 - py) * state.max;
+                    state.ty = (px - 0.5) * state.max;
+                    state.targetLift = 10;
+                    el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+                    el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+                    state.active = true;
+                    el.classList.add('is-hover');
+                });
+                el.addEventListener('pointerleave', () => {
+                    state.tx = 0; state.ty = 0; state.targetLift = 0;
+                    el.classList.remove('is-hover');
+                });
+                tiltCards.push(state);
+            });
+        }
+
+        /* ---------- parallax targets ---------- */
+        const depthEls = Array.from(document.querySelectorAll('[data-depth]')).map((el) => ({
+            el, depth: parseFloat(el.dataset.depth) || 0
+        }));
+        const scrollEls = Array.from(document.querySelectorAll('[data-scroll-speed]')).map((el) => ({
+            el, speed: parseFloat(el.dataset.scrollSpeed) || 0
+        }));
+
         const progressBar = document.getElementById('scroll-progress');
         const nav = document.getElementById('main-nav');
+        const heroScene = document.querySelector('[data-hero-scene]');
+        const heroSection = document.querySelector('.hero');
+        const stageFigure = document.querySelector('.stage-figure');
+        let stageRX = 0, stageRY = 0, lastRX = 0, lastRY = 0;
+        let heroProgress = 0;
+        let docHeight = 0;
+        let viewportH = window.innerHeight;
 
-        function parallaxLoop() {
-            // Smooth mouse interpolation
-            curX += (targetX - curX) * 0.06;
-            curY += (targetY - curY) * 0.06;
+        // Cache each scroll-parallax element's document offset so the rAF loop
+        // never depends on its own previous transform (no feedback / drift).
+        let scrollBase = [];
+        function measureScroll() {
+            const sy = window.scrollY || window.pageYOffset;
+            scrollBase = scrollEls.map((item) => {
+                const rect = item.el.getBoundingClientRect();
+                // centre of the element in document space, with any live transform removed
+                const live = parseFloat(item.el.style.transform.replace(/[^0-9.\-]/g, '')) || 0;
+                return { item, centre: rect.top + rect.height / 2 + sy - live };
+            });
+        }
+        function measure() {
+            viewportH = window.innerHeight;
+            docHeight = document.documentElement.scrollHeight - viewportH;
+            measureScroll();
+        }
+        window.addEventListener('resize', measure, { passive: true });
+        window.addEventListener('load', () => { measure(); setTimeout(measure, 600); });
+        measure();
+        setTimeout(measure, 900);
+
+        /* ---------- main loop ---------- */
+        function frame() {
+            curX += (targetX - curX) * 0.07;
+            curY += (targetY - curY) * 0.07;
 
             if (!prefersReduced) {
-                depthEls.forEach(el => {
-                    const d = parseFloat(el.dataset.depth);
-                    el.style.transform = `translate3d(${(curX * d * 160).toFixed(2)}px, ${(curY * d * 160).toFixed(2)}px, 0)`;
-                });
-                scrollEls.forEach(el => {
-                    const r = el.getBoundingClientRect();
-                    const offset = r.top + r.height / 2 - window.innerHeight / 2;
-                    el.style.transform = `translateY(${(offset * parseFloat(el.dataset.scrollSpeed)).toFixed(2)}px)`;
-                });
+                for (let i = 0; i < depthEls.length; i++) {
+                    const item = depthEls[i];
+                    const amp = 130;
+                    item.el.style.transform =
+                        'translate3d(' + (curX * item.depth * amp).toFixed(2) + 'px,' +
+                        (curY * item.depth * amp).toFixed(2) + 'px,0)';
+                }
             }
 
-            // Scroll progress + nav state
-            const doc = document.documentElement;
-            const max = doc.scrollHeight - window.innerHeight;
-            const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-            if (progressBar) progressBar.style.width = pct + '%';
-            if (nav) nav.classList.toggle('nav-scrolled', window.scrollY > 40);
+            // pointer-reactive card tilt
+            for (let i = 0; i < tiltCards.length; i++) {
+                const c = tiltCards[i];
+                c.cx += (c.tx - c.cx) * 0.12;
+                c.cy += (c.ty - c.cy) * 0.12;
+                c.lift += (c.targetLift - c.lift) * 0.12;
+                if (Math.abs(c.cx) > 0.01 || Math.abs(c.cy) > 0.01 || Math.abs(c.lift) > 0.05) {
+                    c.el.style.transform =
+                        'perspective(1000px) rotateX(' + c.cx.toFixed(2) + 'deg) rotateY(' + c.cy.toFixed(2) +
+                        'deg) translate3d(0,' + (-c.lift).toFixed(2) + 'px,0)';
+                } else if (c.active) {
+                    c.el.style.transform = '';
+                    c.active = false;
+                }
+            }
 
-            requestAnimationFrame(parallaxLoop);
+            // scroll parallax words
+            const scrollY = window.scrollY || window.pageYOffset;
+            for (let i = 0; i < scrollBase.length; i++) {
+                const entry = scrollBase[i];
+                const offset = entry.centre - viewportH / 2 - scrollY;
+                entry.item.el.style.transform =
+                    'translate3d(0,' + (offset * entry.item.speed).toFixed(2) + 'px,0)';
+            }
+
+            // hero figure: 3D hover rotation (mouse) blended with scroll zoom (--hp)
+            if (stageFigure && !prefersReduced) {
+                stageRX += (targetY * -7 - stageRX) * 0.08;
+                stageRY += (targetX * 9 - stageRY) * 0.08;
+                if (Math.abs(stageRX - lastRX) > 0.01 || Math.abs(stageRY - lastRY) > 0.01) {
+                    lastRX = stageRX; lastRY = stageRY;
+                    stageFigure.style.setProperty('--ry', stageRY.toFixed(2) + 'deg');
+                    stageFigure.style.setProperty('--rx', stageRX.toFixed(2) + 'deg');
+                }
+            }
+
+            // hero 3D scroll depth — copy, figure and rings separate as you scroll
+            if (heroSection && !prefersReduced) {
+                const h = heroSection.offsetHeight || viewportH;
+                const p = Math.min(Math.max(scrollY / h, 0), 1);
+                if (Math.abs(p - heroProgress) > 0.0004) {
+                    heroProgress = p;
+                    heroSection.style.setProperty('--hp', p.toFixed(4));
+                }
+            }
+
+            // progress + nav
+            if (progressBar) {
+                const pct = docHeight > 0 ? Math.min(scrollY / docHeight, 1) * 100 : 0;
+                progressBar.style.transform = 'scaleX(' + (pct / 100).toFixed(4) + ')';
+            }
+            if (nav) nav.classList.toggle('is-scrolled', scrollY > 30);
+
+            requestAnimationFrame(frame);
         }
-        requestAnimationFrame(parallaxLoop);
+        requestAnimationFrame(frame);
 
-        // ========== 3D TILT (universal, with glare) ==========
+        /* ---------- magnetic buttons ---------- */
         if (canHover && !prefersReduced) {
-            document.querySelectorAll('[data-tilt]').forEach(card => {
-                const max = parseFloat(card.dataset.tiltMax || '12');
-                card.addEventListener('mousemove', (e) => {
-                    const r = card.getBoundingClientRect();
-                    const px = (e.clientX - r.left) / r.width;
-                    const py = (e.clientY - r.top) / r.height;
-                    const rx = (0.5 - py) * max;
-                    const ry = (px - 0.5) * max;
-                    card.style.transition = 'transform 0.08s ease-out';
-                    card.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-4px)`;
-                    card.style.setProperty('--mx', (px * 100) + '%');
-                    card.style.setProperty('--my', (py * 100) + '%');
+            document.querySelectorAll('[data-magnetic]').forEach((btn) => {
+                btn.addEventListener('pointermove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = (e.clientX - rect.left - rect.width / 2) * 0.22;
+                    const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
+                    btn.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
                 });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-                    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)';
-                });
-            });
-
-            // ========== MAGNETIC BUTTONS ==========
-            document.querySelectorAll('[data-magnetic]').forEach(btn => {
-                btn.addEventListener('mousemove', (e) => {
-                    const r = btn.getBoundingClientRect();
-                    const x = (e.clientX - r.left - r.width / 2) * 0.25;
-                    const y = (e.clientY - r.top - r.height / 2) * 0.35;
-                    btn.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
-                });
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-                    btn.style.transform = 'translate(0, 0)';
-                    setTimeout(() => btn.style.transition = '', 400);
+                btn.addEventListener('pointerleave', () => {
+                    btn.style.transform = '';
                 });
             });
         }
 
-        // ========== SCROLL REVEALS ==========
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
-        document.querySelectorAll('.reveal-up, .reveal-fade, .reveal-scale, .reveal-3d, .stagger').forEach(el => observer.observe(el));
+        /* ---------- scroll reveals ---------- */
+        const revealEls = document.querySelectorAll('.reveal, .reveal-3d, .reveal-scale, .reveal-clip');
 
-        // ========== ANIMATED COUNTERS ==========
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        if (prefersReduced) {
+            revealEls.forEach((el) => el.classList.add('is-in'));
+        } else {
+            document.querySelectorAll('[data-stagger]').forEach((group) => {
+                Array.from(group.children).forEach((child, i) => {
+                    child.style.setProperty('--d', (i * 90) + 'ms');
+                });
+            });
+
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-in');
+                    io.unobserve(entry.target);
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+            revealEls.forEach((el) => io.observe(el));
+        }
+
+        /* ---------- counters ---------- */
+        const counters = document.querySelectorAll('.counter');
+        const counterIO = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
                 if (!entry.isIntersecting) return;
                 const el = entry.target;
-                counterObserver.unobserve(el);
-                const target = parseInt(el.dataset.count, 10);
-                const duration = 1400;
+                counterIO.unobserve(el);
+                const target = parseInt(el.dataset.count, 10) || 0;
+                if (prefersReduced) { el.textContent = target; return; }
+                const dur = 1500;
                 const start = performance.now();
-                function tick(now) {
-                    const p = Math.min((now - start) / duration, 1);
+                (function tick(now) {
+                    const p = Math.min((now - start) / dur, 1);
                     const eased = 1 - Math.pow(1 - p, 3);
                     el.textContent = Math.round(target * eased);
                     if (p < 1) requestAnimationFrame(tick);
-                }
-                requestAnimationFrame(tick);
+                })(start);
             });
-        }, { threshold: 0.6 });
-        document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+        }, { threshold: 0.5 });
+        counters.forEach((el) => counterIO.observe(el));
 
-        // ========== MOBILE MENU ==========
+        /* ---------- active section in nav ---------- */
+        const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+        const sectionMap = navLinks
+            .map((link) => ({ link, section: document.querySelector(link.getAttribute('href')) }))
+            .filter((pair) => pair.section);
+
+        if (sectionMap.length) {
+            const sectionIO = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    const match = sectionMap.find((pair) => pair.section === entry.target);
+                    if (!match) return;
+                    navLinks.forEach((l) => l.classList.remove('is-active'));
+                    match.link.classList.add('is-active');
+                });
+            }, { threshold: 0.25, rootMargin: '-20% 0px -55% 0px' });
+            sectionMap.forEach((pair) => sectionIO.observe(pair.section));
+        }
+
+        /* ---------- mobile menu ---------- */
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (menuBtn && mobileMenu) {
+            const closeMenu = () => {
+                mobileMenu.classList.add('hidden');
+                menuBtn.classList.remove('is-open');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('menu-open');
+            };
             menuBtn.addEventListener('click', () => {
                 const open = mobileMenu.classList.toggle('hidden') === false;
+                menuBtn.classList.toggle('is-open', open);
                 menuBtn.setAttribute('aria-expanded', String(open));
-                menuBtn.innerHTML = open ? '<i class="ph ph-x"></i>' : '<i class="ph ph-list"></i>';
+                document.body.classList.toggle('menu-open', open);
             });
-            mobileMenu.querySelectorAll('.mobile-link').forEach(link =>
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    menuBtn.innerHTML = '<i class="ph ph-list"></i>';
-                    menuBtn.setAttribute('aria-expanded', 'false');
-                })
-            );
+            mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
         }
+
+        /* ---------- smooth anchor scrolling with nav offset ---------- */
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+            link.addEventListener('click', (e) => {
+                const id = link.getAttribute('href');
+                if (!id || id === '#') return;
+                const target = document.querySelector(id);
+                if (!target) return;
+                e.preventDefault();
+                const top = target.getBoundingClientRect().top + window.scrollY - 64;
+                window.scrollTo({ top, behavior: prefersReduced ? 'auto' : 'smooth' });
+            });
+        });
+    })();
     </script>
 </body>
 </html>

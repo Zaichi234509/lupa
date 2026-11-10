@@ -1,38 +1,45 @@
-# Lupa – Champion of the Great Agon
+# Lupa — Champion of the Great Agon
 
-A stunning 3D parallax fan page for Lupa, the undefeated she-wolf gladiator from Wuthering Waves. Built with modern HTML, CSS, and JavaScript featuring a layered 3D parallax world, depth-based ember particles, 3D tilt interactions, and smooth scroll animations.
+An immersive 3D parallax fan experience for Lupa, the undefeated she-wolf gladiator of Wuthering Waves. Rebuilt as an editorial "rose & gold" tribute with a layered depth world, scroll-driven 3D staging, and pointer-parallax artwork.
 
 ## 🌐 Live Demo
 [View Live Site](https://zaichi234509.github.io/lupa/)
 
 ## ✨ Features
-- **Immersive Design**: Dark void theme with ember/gold accents inspired by Lupa's Fusion element
-- **3D Parallax World**: Layered background scene — nebula clouds, horizon glow, perspective arena floor grid, mountain silhouettes, floating shapes & orbs — each drifting at a different depth with your mouse
-- **3D Particle Field**: Depth-based ember particles with twinkle, glow halos, and mouse parallax
-- **3D Tilt Cards**: Every major card (hero, about, abilities, gallery) tilts in 3D with layered `translateZ` depth and a cursor-tracked glare
-- **Scroll Parallax**: Giant outline typography and section banners move at different speeds as you scroll
-- **Hero 3D Stage**: Orbiting rings, glow disc, and floating Fusion / Broadblade / Champion chips at separate parallax depths
-- **Magnetic Buttons**: Buttons gently pull toward your cursor
-- **Animated Counters**: Stats count up when scrolled into view
-- **Scroll Progress Bar + Cursor Glow**: Ember gradient progress bar and a soft glow that follows your mouse
-- **Marquee Strip**: Infinite scrolling "Champion of the Great Agon" ticker
-- **Scroll Animations**: Smooth reveal effects (including 3D flip-in) as you scroll through sections
-- **Responsive Layout**: Fully responsive for mobile and desktop, with a working mobile menu
-- **Reduced Motion Support**: All parallax, tilt, and animation effects respect `prefers-reduced-motion`
+- **Editorial layout** — elegant Cormorant Garamond display type, generous whitespace, hairline gold rules and a refined rose/gold palette that gives the page a distinctly feminine, couture feel
+- **Layered 3D world** — aurora veils, twinkling starfield, horizon glow, a perspective arena floor, arena silhouettes, floating filigree and near-field orbs, each on its own `data-depth` plane that drifts with your pointer
+- **3D hero stage** — separated depth layers: aura, spinning disc, three orbiting rings, glowing halo and the character render, which floats, tilts toward the cursor and pushes forward as you scroll
+- **Scroll parallax typography** — giant outlined display words (Ignis / Wolf / Lupa / Roar) travel at different rates than the page
+- **Hero depth hand-off** — copy, figure and rings separate and fade at different rates while the hero scrolls away
+- **Depth-based particle field** — ember petals with parallax, twinkle and glow halos on a DPR-aware canvas
+- **Smooth 3D tilt cards** — rAF-interpolated tilt with a cursor-tracked glare on ability, gallery and portrait cards
+- **Magnetic buttons**, animated counters, active-section nav highlighting, scroll progress bar and a soft cursor glow
+- **Staggered reveals** with 3D flip-in, clip and scale variants
+- **Fully responsive** — graceful mobile layout with a working slide-down menu
+- **Reduced-motion support** — every effect degrades to a calm, static presentation
+- **Local artwork** — optimized WebP renders and gallery crops served from `assets/`
 
 ## 🎨 Tech Stack
 - HTML5
-- Tailwind CSS (via PostCSS)
-- Custom CSS 3D transforms & keyframe animations
-- Vanilla JavaScript (no frameworks)
-- Phosphor Icons
+- Tailwind CSS (via PostCSS) + a hand-written design system in `src/input.css`
+- CSS 3D transforms & keyframe animation
+- Vanilla JavaScript (single rAF loop for parallax, tilt and depth)
+- Phosphor Icons, Cormorant Garamond & Inter
 
 ## 🚀 Local Development
 ```bash
 npm install
-npm run build        # compile Tailwind → styles.css
+npm run build        # compile Tailwind + custom CSS → styles.css
 npm run watch        # rebuild on change
 python3 -m http.server 8000   # or any static server
+```
+
+## 📁 Project Structure
+```
+index.html        # markup, all sections
+src/input.css     # source styles (built into styles.css)
+styles.css        # compiled stylesheet — do not edit by hand
+assets/           # optimized artwork (WebP)
 ```
 
 ## 📦 Deployment
